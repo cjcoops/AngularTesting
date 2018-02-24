@@ -1,25 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { inject, TestBed } from "@angular/core/testing";
+import { LoginFormComponent } from "./login-form.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { LoginFormComponent } from './login-form.component';
-
-describe('LoginFormComponent', () => {
-  let component: LoginFormComponent;
-  let fixture: ComponentFixture<LoginFormComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginFormComponent ]
-    })
-    .compileComponents();
-  }));
+describe("Isolated", () => {
+  let subject: LoginFormComponent;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      providers: [LoginFormComponent],
+      imports: [FormsModule, ReactiveFormsModule]
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  beforeEach(
+    inject([LoginFormComponent], (loginForm: LoginFormComponent) => {
+      subject = loginForm;
+    })
+  );
+
+  it("should send credentials on submit", () => {
+    subject.submitted.subscribe(({ email, password }) => {
+      expect(email).toEqual(expectedEmail);
+      expect(password).toEqual(expectedPassword);
+    });
+
+    const expectedEmail = "test@test.com";
+    const expectedPassword = "passw0rd";
+
+    subject.onSubmit({ email: expectedEmail, password: expectedPassword });
   });
 });
