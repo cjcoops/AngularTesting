@@ -1,7 +1,7 @@
 import { TestBed, async } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
-import { MyService } from "./my-service.service";
-import { MyFakeService } from "./my-fake-service.service";
+import { MyService } from "./services/my-service.service";
+import { MyFakeService } from "./services/my-fake-service.service";
 describe("AppComponent", () => {
   beforeEach(
     async(() => {
